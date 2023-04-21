@@ -1,54 +1,54 @@
-﻿Console.WriteLine("Введите размерность m массива ");
+﻿Console.Write("Введите размер m массива: ");
 int m = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine("Введите размерность n массива ");
+Console.Write("Введите размер n массива: ");
 int n = Convert.ToInt32(Console.ReadLine());
-int[,] numbers = new int[m, n];
-FillArrayRandomNumbers(numbers);
+int[,] randomArray = new int[m,n];
+
+void mas(int m, int n)
+{
+int i,j;
+Random rand = new Random();
+for (i = 0; i < m; i++)
+{
+for (j = 0; j < n; j++)
+{
+randomArray[i,j] = rand.Next(1,9);
+}
+}
+}
+void printm(int[,] array)
+{
+int i,j;
+for (i = 0; i < array.GetLength(0); i++)
+{
 Console.WriteLine();
-Console.WriteLine("Заданный массив ");
-PrintArray(numbers);
-
-for (int i = 0; i < numbers.GetLength(0); i++)
+for (j = 0; j < array.GetLength(1); j++)
 {
-    for (int j = 0; j < numbers.GetLength(1) - 1; j++)
-    {
-        for (int z = 0; z < numbers.GetLength(1) - 1; z++)
-        {
-            if (numbers[i, z] < numbers[i, z + 1]) 
-            {
-                int temp = 0;
-                temp = numbers[i, z];
-                numbers[i, z] = numbers[i, z + 1];
-                numbers[i, z + 1] = temp;
-            }
-        }
-    }
+Console.Write($"{array[i,j]} ");
 }
 Console.WriteLine();
-Console.WriteLine("Упорядоченный массив ");
-PrintArray(numbers);
-
-void FillArrayRandomNumbers(int[,] array)
-{
-    for (int i = 0; i < array.GetLength(0); i++)
-    {
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-            array[i, j] = new Random().Next(0, 10);
-        }
-    }
 }
-
-void PrintArray(int[,] array)
-{
-    for (int i = 0; i < array.GetLength(0); i++)
-    {
-        Console.Write("[ ");
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-            Console.Write(array[i, j] + " ");
-        }
-        Console.Write("]");
-        Console.WriteLine("");
-    }
 }
+mas(m,n);
+Console.WriteLine("\nИсходный массив: ");
+printm(randomArray);
+int SumLine(int[,] array, int i)
+{
+int sum = array[i,0];
+for (int j = 1; j < array.GetLength(1); j++)
+{
+sum += array[i,j];
+}
+return sum;
+}
+int minSum = 1;
+int sum = SumLine(randomArray, 0);
+for (int i = 1; i < randomArray.GetLength(0); i++)
+{
+if (sum > SumLine(randomArray, i))
+{
+sum = SumLine(randomArray, i);
+minSum = i+1;
+}
+}
+Console.WriteLine($"\nСтрока c наименьшей суммой элементов: {minSum}");
